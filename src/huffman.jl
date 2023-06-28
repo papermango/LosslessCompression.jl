@@ -108,18 +108,20 @@ end
 function decode_huffman(coder::Node, coded_message::BitArray)
     # set the pointer to the head node
     sentinel = coder
-    message = ""
+    # string concatenation is expensive, so we build a char array instead
+    message = Char[]
     for bit in coded_message
         # if bit is 0, go left, if bit is 1, go right
         sentinel = bit == 0 ? sentinel.left : sentinel.right
         # when we hit a leaf, append that character and reset
         # leaf nodes have non-nothing symbols & no children
         if sentinel.sym !== nothing
-            message = message * sentinel.sym
+            push!(message, sentinel.sym)
             sentinel = coder
         end
     end
-    return message
+    # convert back to string
+    return String(message)
 end
 #= For now, we'll directly serialize the tree
 #  Tests suggest that serializing the tree is only ~2.7 times worse than
