@@ -4,11 +4,12 @@ using Test
 @testset "Small files encoding/decoding" begin
     lorem_small = read("test_files/lorem_small.txt", String)
     tiny = read("test_files/tiny.txt", String)
+
     @test decode_huffman(encode_huffman(lorem_small)...) == lorem_small
     @test decode_huffman(encode_huffman(tiny)...) == tiny
 end
 
-@testset "Small files reading/writing" begin
+@testset "Small files reading/writing, default output names" begin
     encodefile("test_files/lorem_small.txt")
     decodefile("test_files/lorem_small.txt.encjl")
     @test read("test_files/lorem_small.txt", String) == read("test_files/lorem_small.txt.out", String)

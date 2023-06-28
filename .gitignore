@@ -1,1 +1,4 @@
 /Manifest.toml
+*.encjl
+*.out
+./test_files/*squished_*
